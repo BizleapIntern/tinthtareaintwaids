@@ -15,11 +15,12 @@ import com.bizleap.training.ds.service.EmployeeService;
 import com.bizleap.training.ds.service.dao.EmployeeDao;
 
 @Service("employeeService")
+@Transactional(readOnly = true)
 public class EmployeeServiceImpl extends AbstractServiceImpl implements EmployeeService {
-
+	
 	@Autowired
 	private EmployeeDao employeeDao;
-
+	
 	@Override
 	public List<Employee> findByEmployeeBoId(String boId) throws ServiceUnavailableException {
 		String queryStr = "select employee from Employee employee where employee.boId=:dataInput";
@@ -41,9 +42,9 @@ public class EmployeeServiceImpl extends AbstractServiceImpl implements Employee
 	}
 
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(readOnly=false)
 	public void saveEmployee(Employee employee) throws ServiceUnavailableException {
-		if (employee.isBoIdRequired()) {
+		if(employee.isBoIdRequired()) {
 			employee.setBoId(getNextBoId());
 		}
 		employeeDao.save(employee);
@@ -55,20 +56,17 @@ public class EmployeeServiceImpl extends AbstractServiceImpl implements Employee
 		hibernateInitializeEmployeeList(employeeList);
 		return employeeList;
 	}
-
+	
 	public long getCount() {
 		return employeeDao.getCount("select count(emp) from Employee emp");
 	}
-
+	
 	public String getNextBoId() {
 		return getNextBoId(EntityType.EMPLOYEE);
 	}
-
+	
 	@Override
 	public void hibernateInitializeEmployeeList(List<Employee> employeeList) {
-		/*if(employeeList==null)
-			return;
-		Hibernate.initialize(employeeList);*/
 		for (Employee employee : employeeList)
 			hibernateInitializeEmployee(employee);
 	}
@@ -76,14 +74,4 @@ public class EmployeeServiceImpl extends AbstractServiceImpl implements Employee
 	public void hibernateInitializeEmployee(Employee employee) {
 		Hibernate.initialize(employee);
 	}
-
-	/*
-	 * @Override public List<Employee> findByEmployeeBoId(String boId) throws
-	 * com.bizleap.commons.domain.exception.ServiceUnavailableException { // TODO
-	 * Auto-generated method stub return null; }
-	 * 
-	 * @Override public Employee findByEmployeeBoIdSingle(String boId) throws
-	 * com.bizleap.commons.domain.exception.ServiceUnavailableException { // TODO
-	 * Auto-generated method stub return null; }
-	 */
 }
