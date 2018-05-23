@@ -27,9 +27,9 @@ public class EmployeeServiceImplTest extends ServiceTest {
 	@Test
 	public void testFindByEmployeeyBoId() throws ServiceUnavailableException {
 
-		assertNotNull(employeeService.findByEmployeeBoId("PER01"));
-		logger.info("Employee list: " + employeeService.findByEmployeeBoId("PER01"));
-		assertTrue(CollectionUtils.isNotEmpty(employeeService.findByEmployeeBoId("PER01")));
+		assertNotNull(employeeService.findByEmployeeBoId("PER03"));
+		logger.info("Employee list: " + employeeService.findByEmployeeBoId("PER03"));
+		assertTrue(CollectionUtils.isNotEmpty(employeeService.findByEmployeeBoId("PER03")));
 	}
 
 	// @Ignore

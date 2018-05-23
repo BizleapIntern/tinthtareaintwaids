@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.bizleap.commons.domain.Company;
 import com.bizleap.commons.domain.Employee;
 import com.bizleap.commons.domain.enums.EntityType;
+import com.bizleap.commons.domain.enums.ObjectFullnessLevel;
 import com.bizleap.commons.domain.exception.ServiceUnavailableException;
 import com.bizleap.training.ds.service.EmployeeService;
 import com.bizleap.training.ds.service.dao.EmployeeDao;
@@ -29,14 +31,12 @@ public class EmployeeServiceImpl extends AbstractServiceImpl implements Employee
 		hibernateInitializeEmployeeList(employeeList);
 		return employeeList;
 	}
-
+	
 	@Override
 	public Employee findByEmployeeBoIdSingle(String boId) throws ServiceUnavailableException {
 		List<Employee> employeeList = findByEmployeeBoId(boId);
 		if (!CollectionUtils.isEmpty(employeeList)) {
-			if (employeeList.size() > 0) {
 				return employeeList.get(0);
-			}
 		}
 		return null;
 	}
